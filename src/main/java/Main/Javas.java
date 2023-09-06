@@ -3,8 +3,16 @@ package Main;
 public class Javas {
 
     String path;
-    void setup(){}
-//    void generateTest();
-//    void cheating();
+    String name;
+    void setup(){
+
+    }
+    void generateTest(String outputPath){
+
+    }
+
+    void detectCheat(String outputPath){
+
+    }
 
 }

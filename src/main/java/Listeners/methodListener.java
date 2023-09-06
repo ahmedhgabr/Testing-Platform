@@ -192,7 +192,6 @@ public class methodListener extends Java8BaseListener {
 
     /////////////METHOD INVOCATION\\\\\\\\\\\\\\\\\\
 
-
     @Override
     public void exitMethodInvocation(Java8Parser.MethodInvocationContext ctx) {
         super.exitMethodInvocation(ctx);
@@ -211,7 +210,6 @@ public class methodListener extends Java8BaseListener {
             }
 
         }
-
         output += " , arguments : ";
         if (ctx.argumentList() != null) {
             output += ctx.argumentList().getText();
@@ -220,6 +218,6 @@ public class methodListener extends Java8BaseListener {
         }
         method.methodsInvoked.add(output);
         method.dependency++;
-
     }
+
 }

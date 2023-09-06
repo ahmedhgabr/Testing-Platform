@@ -11,8 +11,6 @@ import Listeners.mainListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
 
     static ArrayList<String> filesPath = new ArrayList<>();
@@ -30,23 +28,50 @@ public class Main {
         for (String file: filesPath) {
             isJavas(file);
         }
+        //we will use Javas meaning classes , interfaces , annotations , enums
+        // , or any java file
 
-        // each
         ArrayList<Javas> myJavas = MainListener.javas;
+        //here we have all javas Objects with names and paths
+
+        // use more specific listener for each file
+        // (class -> class listener - > method listener , interface -> interface listener , etc)
+
         for (Javas j: myJavas) {
             j.setup();
         }
 
+        // here, we should have all data we need from our input
+        // have all classes( names , variables , methods )
+        // interfaces (methods)
+        //TODO: support enums , annotations
 
 
-        //output paths
-        String fileP = "outputCheat.txt";
+        // empty the output files (delete old output if found)
+        String fileP = "output.txt";
         File oldFile = new File(fileP);
         oldFile.delete();
 
         String fileT = "OutputTest.java";
-        File ToldFile = new File(fileT);
-        ToldFile.delete();
+        File oldFileT = new File(fileT);
+        oldFileT.delete();
+
+        String fileC = "outputCheat.java";
+        File oldFileC = new File(fileT);
+        oldFileC.delete();
+
+        // start generate tests
+        for (Javas j: myJavas) {
+            j.generateTest(fileT);
+        }
+
+        // start cheating output  file
+        for (Javas j: myJavas) {
+            j.detectCheat(fileC);
+        }
+
+
+
 
     }
 
@@ -75,10 +100,8 @@ public class Main {
     }
 
     private static void isJavas(String file) {
-
         Path fileP = Paths.get(file);
         Java8Lexer lexer= null;
-
         try {
             lexer = new Java8Lexer(CharStreams.fromPath(fileP));
         }catch (IOException e){
@@ -87,6 +110,7 @@ public class Main {
         Java8Parser parser = new Java8Parser(new CommonTokenStream(lexer));
         parser.addParseListener(MainListener);
         parser.compilationUnit();
+        // add path to the javas
         MainListener.javas.get(MainListener.javas.size()-1).path = file;
     }
 
