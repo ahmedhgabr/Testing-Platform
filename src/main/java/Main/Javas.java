@@ -4,7 +4,7 @@ public class Javas {
 
     String path;
     String name;
-    void setup(){
+    void analyze(){
 
     }
     void generateTest(String outputPath){

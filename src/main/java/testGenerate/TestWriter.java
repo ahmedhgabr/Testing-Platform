@@ -3,11 +3,11 @@ package testGenerate;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class testWriter {
+public class TestWriter {
 
     private String filePath;
 
-    public testWriter(String filePath) {
+    public TestWriter(String filePath) {
         this.filePath = filePath;
     }
 

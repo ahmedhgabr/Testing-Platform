@@ -9,7 +9,7 @@ import Main.Class;
 
 import java.util.ArrayList;
 
-public class mainListener extends Java8BaseListener {
+public class MainListener extends Java8BaseListener {
 
     public static ArrayList<Javas> javas = new ArrayList<>();
 

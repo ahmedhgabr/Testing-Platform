@@ -3,75 +3,145 @@ package Listeners;
 import ANTLR.Java8BaseListener;
 import ANTLR.Java8Parser;
 import Main.Method;
+import Main.Variable;
 
 import java.util.ArrayList;
 
-public class methodListener extends Java8BaseListener {
+public class ClassListener extends Java8BaseListener {
+
+    public String superClass;
+    public ArrayList<String> interfaces = new ArrayList<>();
+    public String modifier;
+    public String signature;
+    public ArrayList<Variable> variables = new ArrayList<>();
+    public ArrayList<Method> methods = new ArrayList<>();
+
+
+    /////////////CLASS HEADER\\\\\\\\\\\\\\\\\\\\\\
+
+
+    @Override
+    public void exitClassModifier(Java8Parser.ClassModifierContext ctx) {
+        super.exitClassModifier(ctx);
+        this.modifier = ctx.getText();
+    }
+
+    @Override
+    public void exitSuperclass(Java8Parser.SuperclassContext ctx) {
+        super.exitSuperclass(ctx);
+        this.superClass = ctx.classType().getText();
+    }
+
+    @Override
+    public void exitInterfaceType(Java8Parser.InterfaceTypeContext ctx) {
+        super.exitInterfaceType(ctx);
+        this.interfaces.add(ctx.getText());
+    }
+
+    ////////////GLOBAL VARIABLE\\\\\\\\\\\\\\\\\\\\\\\
+    @Override
+    public void exitFieldDeclaration(Java8Parser.FieldDeclarationContext ctx) {
+        super.exitFieldDeclaration(ctx);
+        String modifier = (ctx.fieldModifier().isEmpty()) ? "default" : ctx.fieldModifier().get(0).getText();
+        String type = ctx.unannType().getText();
+        for (Java8Parser.VariableDeclaratorContext var : ctx.variableDeclaratorList().variableDeclarator()) {
+            String name = var.variableDeclaratorId().getText();
+
+            variables.add(new Variable(modifier, type, name));
+        }
+    }
+
+
+    ////////////METHOD\\\\\\\\\\\\\\\\\\\\
 
     Method method;
 
-    public methodListener() {
-        this.method = new Method();
-    }
 
+    // Method Header
+    @Override
+    public void enterMethodDeclaration(Java8Parser.MethodDeclarationContext ctx) {
+        super.enterMethodDeclaration(ctx);
+        methods.add(new Method());
+        method = methods.get(methods.size() - 1);
+    }
 
     @Override
     public void exitMethodDeclarator(Java8Parser.MethodDeclaratorContext ctx) {
         super.exitMethodDeclarator(ctx);
-
         String methodName = ctx.Identifier().getText();
         method.name = methodName;
     }
 
     @Override
+    public void exitFormalParameter(Java8Parser.FormalParameterContext ctx) {
+        super.exitFormalParameter(ctx);
+        method.parameters.add(ctx.getText());
+        String name = ctx.variableDeclaratorId().getText();
+        String type = ctx.unannType().getText();
+        method.variables.put(name, new Variable("private", type, name));
+    }
+
+
+
+    @Override
+    public void exitMethodModifier(Java8Parser.MethodModifierContext ctx) {
+        super.exitMethodModifier(ctx);
+        method.modifier = ctx.getText();
+    }
+
+    @Override
     public void exitMethodHeader(Java8Parser.MethodHeaderContext ctx) {
         super.exitMethodHeader(ctx);
+        String returnType = ctx.result().getText();
+        method.returnType = returnType;
+        method.signature = ctx.getText();
 
-        method.returnType = ctx.result().getText();
     }
 
 
     @Override
     public void exitMethodBody(Java8Parser.MethodBodyContext ctx) {
         super.exitMethodBody(ctx);
-        int size = 0;
-
+        int size;
 
         try {
             if (ctx.block().blockStatements() == null) {
-                method.empty = true;
+                methods.get(methods.size() - 1).empty = true;
+
             } else {
+                method.body = ctx.getText();
                 size = ctx.block().blockStatements().children.size();
                 method.size = size;
             }
         } catch (Exception e) {
-            // this is interface should not be here
-            System.out.println("This listener is for class not interface");
+            System.out.println("empty");
         }
+
     }
+
+    //TODO: support static class
 
 
     /////////////////VARIABLES\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     @Override
-    public void exitVariableDeclaratorId(Java8Parser.VariableDeclaratorIdContext ctx) {
-        super.exitVariableDeclaratorId(ctx);
+    public void exitLocalVariableDeclaration(Java8Parser.LocalVariableDeclarationContext ctx) {
+        super.exitLocalVariableDeclaration(ctx);
 
-//        variables.add(ctx.Identifier().getText());
-//        ArrayList<String> temp = new ArrayList<>();
-//        String varID = (variables.lastIndexOf(ctx.Identifier().getText()) != -1) ? ctx.Identifier().getText() + variables.lastIndexOf(ctx.Identifier().getText()) : ctx.Identifier().getText() + ".";
-//        variableUsage.put(varID, temp);
-//        fw.writeToFile(spaceAppend(space) + "VARIABLE NAME: " + ctx.Identifier() + ",ID : " + varID);
-        method.Variables.putIfAbsent(ctx.Identifier().getText(), new ArrayList<>());
+        String type = ctx.unannType().getText();
+        for (Java8Parser.VariableDeclaratorContext c : ctx.variableDeclaratorList().variableDeclarator()) {
+            String name = c.variableDeclaratorId().getText();
+            method.variables.putIfAbsent(name, new Variable("private", type, name));
+            method.variables.get(name).addUsage(ctx.getText());
+        }
     }
 
-
-    String tempVar;
+    ArrayList<String> tempVar = new ArrayList<>();
 
     @Override
     public void exitExpressionName(Java8Parser.ExpressionNameContext ctx) {
         super.exitExpressionName(ctx);
-        tempVar = ctx.Identifier().getText();
+        tempVar.add(ctx.getText());
     }
 
     @Override
@@ -79,25 +149,13 @@ public class methodListener extends Java8BaseListener {
         super.exitExpressionStatement(ctx);
         String expression = ctx.getText();
 
-//        for (String var : varTemp) {
-//            String varID = (variables.lastIndexOf(var) != -1) ? var + variables.lastIndexOf(var) : var + ".";
-//            if (variableUsage.get(varID) == null) {
-//                ArrayList<String> temp = new ArrayList<>();
-//                variableUsage.put(varID, temp);
-//
-//            }
-//            variableUsage.get(varID).add(expression);
-//        }
-
-        method.Variables.get(tempVar).add(expression);
-    }
-
-    @Override
-    public void exitAssignment(Java8Parser.AssignmentContext ctx) {
-        super.exitAssignment(ctx);
-        method.Variables.get(ctx.leftHandSide().getText()).add("=" + ctx.expression().getText());
+        for (String varName : tempVar) {
+            method.variables.putIfAbsent(varName, new Variable("private", "", varName));
+            method.variables.get(varName).addUsage(expression);
+        }
 
     }
+
 
     ////////////////////// LOOPS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     @Override
@@ -219,5 +277,4 @@ public class methodListener extends Java8BaseListener {
         method.methodsInvoked.add(output);
         method.dependency++;
     }
-
 }
