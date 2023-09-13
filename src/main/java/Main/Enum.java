@@ -3,7 +3,7 @@ package Main;
 import ANTLR.Java8Lexer;
 import ANTLR.Java8Parser;
 import Listeners.ClassListener;
-import Listeners.InterfaceListener;
+import Listeners.EnumListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -12,22 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Interface extends Javas{
-    ArrayList<Method> methods ;
+public class Enum extends Javas {
 
-    public Interface(String name) {
-        this.name = name;
-        methods = new ArrayList<>();
-    }
+    ArrayList<String> values ;
 
-    private String setSignature() {
-        String res = "";
-        for (String m: this.modifier ) {
-            res += m + " ";
-        }
-        res += "interface ";
-        res += this.name + " {";
-        return res;
+    public Enum() {
+        this.values = new ArrayList<>();
     }
 
     @Override
@@ -42,13 +32,23 @@ public class Interface extends Javas{
         }
 
         Java8Parser parser = new Java8Parser(new CommonTokenStream(lexer));
-        InterfaceListener listener = new InterfaceListener();
+        EnumListener listener = new EnumListener();
         parser.addParseListener(listener);
         parser.compilationUnit();
 
-
         this.modifier = listener.modifier;
         this.signature = setSignature();
-        this.methods = listener.methods;
+        this.values = listener.values;
     }
+
+    private String setSignature() {
+        String res = "";
+        for (String m: this.modifier ) {
+            res += m + " ";
+        }
+        res += "class ";
+        res += this.name + " {";
+        return res;
+    }
+
 }

@@ -43,7 +43,7 @@ public class Main {
             System.out.println(j.name);
             try {
                 j.analyze();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("problem happened here");
                 System.out.println(e.getMessage());
             }
@@ -73,7 +73,7 @@ public class Main {
         // start generate tests
         Tester tester = new Tester(fileT);
         tester.writeIntro();
-        for (Javas j: myJavas) {
+        for (Javas j : myJavas) {
             j.generateTest(fileT);
         }
         tester.writeOutro();
@@ -92,7 +92,7 @@ public class Main {
 //        Scanner sc= new Scanner(System.in);
 //        String p = sc.next();
 
-        String p = "C:/Users/Asus/Desktop/myProjects/Problem-Solving";
+        String p = "C:/Users/Asus/Desktop/myProjects/Connect4/src";
         return p;
     }
 

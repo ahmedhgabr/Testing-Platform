@@ -11,10 +11,10 @@ public class ClassListener extends Java8BaseListener {
 
     public String superClass;
     public ArrayList<String> interfaces = new ArrayList<>();
-    public String modifier;
-    public String signature;
+    public ArrayList<String> modifier = new ArrayList<>();
     public ArrayList<Variable> variables = new ArrayList<>();
     public ArrayList<Method> methods = new ArrayList<>();
+    public ArrayList<Method> constructors = new ArrayList<>();
 
 
     /////////////CLASS HEADER\\\\\\\\\\\\\\\\\\\\\\
@@ -23,7 +23,7 @@ public class ClassListener extends Java8BaseListener {
     @Override
     public void exitClassModifier(Java8Parser.ClassModifierContext ctx) {
         super.exitClassModifier(ctx);
-        this.modifier = ctx.getText();
+        this.modifier.add(ctx.getText());
     }
 
     @Override
@@ -55,14 +55,14 @@ public class ClassListener extends Java8BaseListener {
     ////////////METHOD\\\\\\\\\\\\\\\\\\\\
 
     Method method;
+    boolean inMethod;
 
 
-    // Method Header
     @Override
     public void enterMethodDeclaration(Java8Parser.MethodDeclarationContext ctx) {
         super.enterMethodDeclaration(ctx);
-        methods.add(new Method());
-        method = methods.get(methods.size() - 1);
+        method = new Method();
+        inMethod = true;
     }
 
     @Override
@@ -80,7 +80,6 @@ public class ClassListener extends Java8BaseListener {
         String type = ctx.unannType().getText();
         method.variables.put(name, new Variable("private", type, name));
     }
-
 
 
     @Override
@@ -117,10 +116,29 @@ public class ClassListener extends Java8BaseListener {
             System.out.println("empty");
         }
 
+        methods.add(method);
+        inMethod = false;
+
     }
 
     //TODO: support static class
 
+
+    /////////////////CONSTRUCTOR\\\\\\\\\\\\\\\\\\\\\
+
+    @Override
+    public void enterConstructorDeclarator(Java8Parser.ConstructorDeclaratorContext ctx) {
+        super.enterConstructorDeclarator(ctx);
+        method = new Method();
+        inMethod = true;
+    }
+
+    @Override
+    public void exitConstructorBody(Java8Parser.ConstructorBodyContext ctx) {
+        super.exitConstructorBody(ctx);
+        constructors.add(method);
+        inMethod = false;
+    }
 
     /////////////////VARIABLES\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -149,9 +167,11 @@ public class ClassListener extends Java8BaseListener {
         super.exitExpressionStatement(ctx);
         String expression = ctx.getText();
 
-        for (String varName : tempVar) {
-            method.variables.putIfAbsent(varName, new Variable("private", "", varName));
-            method.variables.get(varName).addUsage(expression);
+        if (inMethod) {
+            for (String varName : tempVar) {
+                method.variables.putIfAbsent(varName, new Variable("private", "", varName));
+                method.variables.get(varName).addUsage(expression);
+            }
         }
 
     }

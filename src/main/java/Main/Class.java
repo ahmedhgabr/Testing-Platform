@@ -16,23 +16,26 @@ public class Class extends Javas {
 
     String superClass;
     ArrayList<String> interfaces;
-    String modifier;
-    String signature;
 
     //global variables
     ArrayList<Variable> variables;
     public ArrayList<Method> methods;
+    public ArrayList<Method> constructors;
 
     public Class(String name) {
         this.name = name;
         this.superClass = " ";
         this.interfaces = new ArrayList<>();
-        this.modifier = "";
+        this.modifier = new ArrayList<>();
         this.signature = "";
         this.variables = new ArrayList<>();
         this.methods = new ArrayList<>();
+        this.constructors = new ArrayList<>();
     }
 
+    private boolean isAbstract() {
+        return this.signature.contains("abstract");
+    }
 
     @Override
     void analyze() {
@@ -53,10 +56,20 @@ public class Class extends Javas {
         this.superClass = listener.superClass;
         this.interfaces = listener.interfaces;
         this.modifier = listener.modifier;
-        this.signature = listener.signature;
+        this.signature = setSignature();
         this.variables = listener.variables;
         this.methods = listener.methods;
+        this.constructors = listener.constructors;
+    }
 
+    private String setSignature() {
+        String res = "";
+        for (String m: this.modifier ) {
+            res += m + " ";
+        }
+        res += "class ";
+        res += this.name + " {";
+        return res;
     }
 
     @Override
@@ -67,7 +80,9 @@ public class Class extends Javas {
 
         tester.writePath(name, path);
         tester.testSuper(name, superClass);
-        tester.testIsAbstract(name);
+        if (isAbstract()) {
+            tester.testIsAbstract(name);
+        }
         for (String interfaceName : interfaces) {
             tester.testInterface(name, interfaceName);
         }
