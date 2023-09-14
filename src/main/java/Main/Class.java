@@ -64,7 +64,7 @@ public class Class extends Javas {
 
     private String setSignature() {
         String res = "";
-        for (String m: this.modifier ) {
+        for (String m : this.modifier) {
             res += m + " ";
         }
         res += "class ";
@@ -91,6 +91,19 @@ public class Class extends Javas {
                 tester.testInstanceVariable(name, v.name);
             }
         }
+
+        // test will always have setter , getter tests
+        for (Variable var : variables) {
+            String mName = "set" +Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
+            if (methods.contains( mName)) {
+                tester.testSetter(name,mName, var.name, var.type, true);
+                tester.testGetter(name,mName, var.name, var.type, true);
+            } else {
+                tester.testSetter(name,mName, var.name, var.type, false);
+                tester.testGetter(name,mName, var.name, var.type, false);
+            }
+        }
+
 
 
     }

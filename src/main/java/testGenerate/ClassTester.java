@@ -54,6 +54,34 @@ public class ClassTester extends Tester {
                 "\t}");
     }
 
+
+    /////////////////////
+    public void testSetter(String className, String methodName, String varName, String varType, boolean writeVariable) {
+
+        String t = "int Integer String Arraylist  List  boolean  Boolean";
+        String type = (t.contains(varType) ? varType + ".Class" : pathV(varType));
+        writer.writeToFile("\tpublic void testSetterForInstanceVariable" + varName + "ExistsInClass" + className + "()throws Exception { \n" +
+                "\t\t testSetterMethodExistsInClass(Class.forName(" + pathV(className) + "), " + methodName + ", Class.forName(" + type + ")," + writeVariable + "); }\n");
+    }
+
+    public void testGetter(String className, String methodName, String varName, String varType, boolean writeVariable) {
+
+        String t = "int Integer String Arraylist  List  boolean  Boolean";
+        String type = (t.contains(varType) ? varType + ".Class" : pathV(varType));
+        writer.writeToFile("\tpublic void testGetterForInstanceVariable" + varName + "ExistsInClass" + className + "()throws Exception { \n" +
+                "\t\t testGetterMethodExistsInClass(Class.forName(" + pathV(className) + "), " + methodName + ", Class.forName(" + type + ")," + writeVariable + "); }\n");
+    }
+
+
+    ///////////////////////////////
+
+
+
+
+
+
+    //////////////////////////////
+
     private String[] inputsToString(String[] inputs) {
         for (int i = 0; i < inputs.length; i++) {
             if (inputs[i].equals("int") || inputs[i].equals("String")) {

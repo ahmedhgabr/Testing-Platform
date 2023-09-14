@@ -20,6 +20,24 @@ public class test
 {
 String BoardPath = "C:/Users/Asus/Desktop/myProjects/Connect4/src/Board.java" ;
 
+	public void testSetterForInstanceVariableboardExistsInClassBoard()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(BoardPath), setBoard, Class.forName(char[][]Path),false); }
+
+	public void testGetterForInstanceVariableboardExistsInClassBoard()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(BoardPath), setBoard, Class.forName(char[][]Path),false); }
+
+	public void testSetterForInstanceVariablerowsExistsInClassBoard()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(BoardPath), setRows, Class.forName(int.Class),false); }
+
+	public void testGetterForInstanceVariablerowsExistsInClassBoard()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(BoardPath), setRows, Class.forName(int.Class),false); }
+
+	public void testSetterForInstanceVariablecolumnsExistsInClassBoard()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(BoardPath), setColumns, Class.forName(int.Class),false); }
+
+	public void testGetterForInstanceVariablecolumnsExistsInClassBoard()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(BoardPath), setColumns, Class.forName(int.Class),false); }
+
 String ChaosPath = "C:/Users/Asus/Desktop/myProjects/Connect4/src/Chaos.java" ;
 
 public void testClassicIsSuperClassOfChaos() throws Exception
@@ -33,12 +51,54 @@ public void testInstanceVariablecolourIsPresentAndIsPrivateInClasschips() throws
 		testInstanceVariableIsPresent(Class.forName(chipsPath), "colour", true);
 		testInstanceVariableIsPrivate(Class.forName(chipsPath), "colour");
 	}
+	public void testSetterForInstanceVariablecolourExistsInClasschips()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(chipsPath), setColour, Class.forName(String.Class),false); }
+
+	public void testGetterForInstanceVariablecolourExistsInClasschips()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(chipsPath), setColour, Class.forName(String.Class),false); }
+
 String ClassicPath = "C:/Users/Asus/Desktop/myProjects/Connect4/src/Classic.java" ;
 
 public void testInterfaceModeIsImplementedByClassClassic() throws Exception{
 		testClassImplementsInterface(Class.forName(ClassicPath), Class.forName(ModePath));
 	}
+	public void testSetterForInstanceVariableplayer1ExistsInClassClassic()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(ClassicPath), setPlayer1, Class.forName(PlayerPath),false); }
+
+	public void testGetterForInstanceVariableplayer1ExistsInClassClassic()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(ClassicPath), setPlayer1, Class.forName(PlayerPath),false); }
+
+	public void testSetterForInstanceVariableplayer2ExistsInClassClassic()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(ClassicPath), setPlayer2, Class.forName(PlayerPath),false); }
+
+	public void testGetterForInstanceVariableplayer2ExistsInClassClassic()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(ClassicPath), setPlayer2, Class.forName(PlayerPath),false); }
+
+	public void testSetterForInstanceVariablecurrentPlayerExistsInClassClassic()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(ClassicPath), setCurrentPlayer, Class.forName(PlayerPath),false); }
+
+	public void testGetterForInstanceVariablecurrentPlayerExistsInClassClassic()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(ClassicPath), setCurrentPlayer, Class.forName(PlayerPath),false); }
+
+	public void testSetterForInstanceVariableboardExistsInClassClassic()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(ClassicPath), setBoard, Class.forName(BoardPath),false); }
+
+	public void testGetterForInstanceVariableboardExistsInClassClassic()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(ClassicPath), setBoard, Class.forName(BoardPath),false); }
+
+	public void testSetterForInstanceVariablescannerExistsInClassClassic()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(ClassicPath), setScanner, Class.forName(ScannerPath),false); }
+
+	public void testGetterForInstanceVariablescannerExistsInClassClassic()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(ClassicPath), setScanner, Class.forName(ScannerPath),false); }
+
 String MainPath = "C:/Users/Asus/Desktop/myProjects/Connect4/src/Main.java" ;
+
+	public void testSetterForInstanceVariableclassesExistsInClassMain()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(MainPath), setClasses, Class.forName(List<String>Path),false); }
+
+	public void testGetterForInstanceVariableclassesExistsInClassMain()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(MainPath), setClasses, Class.forName(List<String>Path),false); }
 
 String PlayerPath = "C:/Users/Asus/Desktop/myProjects/Connect4/src/Player.java" ;
 
@@ -52,6 +112,18 @@ public void testInstanceVariablechipIsPresentAndIsPrivateInClassPlayer() throws 
 		testInstanceVariableIsPresent(Class.forName(PlayerPath), "chip", true);
 		testInstanceVariableIsPrivate(Class.forName(PlayerPath), "chip");
 	}
+	public void testSetterForInstanceVariablenameExistsInClassPlayer()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(PlayerPath), setName, Class.forName(String.Class),false); }
+
+	public void testGetterForInstanceVariablenameExistsInClassPlayer()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(PlayerPath), setName, Class.forName(String.Class),false); }
+
+	public void testSetterForInstanceVariablechipExistsInClassPlayer()throws Exception { 
+		 testSetterMethodExistsInClass(Class.forName(PlayerPath), setChip, Class.forName(chipsPath),false); }
+
+	public void testGetterForInstanceVariablechipExistsInClassPlayer()throws Exception { 
+		 testGetterMethodExistsInClass(Class.forName(PlayerPath), setChip, Class.forName(chipsPath),false); }
+
 String testPath = "C:/Users/Asus/Desktop/myProjects/Connect4/src/test.java" ;
 
 
