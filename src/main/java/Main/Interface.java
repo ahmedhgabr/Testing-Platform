@@ -2,10 +2,10 @@ package Main;
 
 import ANTLR.Java8Lexer;
 import ANTLR.Java8Parser;
-import Listeners.ClassListener;
 import Listeners.InterfaceListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import testGenerate.InterfaceTester;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -51,4 +51,19 @@ public class Interface extends Javas{
         this.signature = setSignature();
         this.methods = listener.methods;
     }
+
+
+    @Override
+    void generateTest(String outputPath) {
+        super.generateTest(outputPath);
+
+        InterfaceTester tester = new InterfaceTester(outputPath);
+
+        tester.writePath(name, path);
+
+        tester.testIsInstanceVariable(name);
+
+    }
+
+
 }

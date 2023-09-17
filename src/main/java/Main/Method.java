@@ -45,8 +45,16 @@ public class Method implements Comparable {
 
     @Override
     public String toString() {
-        return signature;
+//        return signature;
+        return name;
     }
 
     //TODO: compare method
+
+
+
+    public Variable getVariable(String name ){
+        return variables.get(name);
+    }
+
 }

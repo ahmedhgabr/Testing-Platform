@@ -27,8 +27,8 @@ public class InterfaceListener extends Java8BaseListener {
 
 
     @Override
-    public void enterMethodDeclaration(Java8Parser.MethodDeclarationContext ctx) {
-        super.enterMethodDeclaration(ctx);
+    public void enterMethodDeclarator(Java8Parser.MethodDeclaratorContext ctx) {
+        super.enterMethodDeclarator(ctx);
         method = new Method();
     }
 

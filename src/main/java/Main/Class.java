@@ -72,6 +72,7 @@ public class Class extends Javas {
         return res;
     }
 
+
     @Override
     void generateTest(String outputPath) {
         super.generateTest(outputPath);
@@ -92,18 +93,48 @@ public class Class extends Javas {
             }
         }
 
-        // test will always have setter , getter tests
-        for (Variable var : variables) {
-            String mName = "set" +Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
-            if (methods.contains( mName)) {
-                tester.testSetter(name,mName, var.name, var.type, true);
-                tester.testGetter(name,mName, var.name, var.type, true);
-            } else {
-                tester.testSetter(name,mName, var.name, var.type, false);
-                tester.testGetter(name,mName, var.name, var.type, false);
+
+        //constructors
+        int i =0 ;
+        for (Method constructor: constructors) {
+            ArrayList<String> names = new ArrayList<>();
+            ArrayList<String> types = new ArrayList<>();
+            for (String varName : constructor.parameters ) {
+                Variable var = constructor.getVariable(varName);
+                names.add(var.name);
+                types.add(var.type);
             }
+            tester.testConstructorInitialization(name,names,types,i++);
+
         }
 
+
+        ArrayList<String> methodsNames = new ArrayList<>();
+        for (Method m : methods) {
+            methodsNames.add(m.name);
+        }
+
+        // test will always have setter , getter tests
+        for (Variable var : variables) {
+            String mName = "set" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
+            String gName = "get" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
+            
+            if (methodsNames.contains(mName)) {
+                tester.testSetter(name, mName, var.name, var.type, true);
+//                tester.setterLogic(name, var.name, var.type);
+            } else {
+                tester.testSetter(name, mName, var.name, var.type, false);
+            }
+
+            if (methodsNames.contains(gName)) {
+                tester.testGetter(name, mName, var.name, var.type, true);
+//                tester.getterLogic(name, var.name, var.type);
+            } else {
+                tester.testGetter(name, mName, var.name, var.type, false);
+            }
+
+
+        }
 
 
     }

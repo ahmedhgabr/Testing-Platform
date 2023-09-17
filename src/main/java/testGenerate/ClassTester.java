@@ -1,5 +1,8 @@
 package testGenerate;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class ClassTester extends Tester {
 
 
@@ -7,15 +10,6 @@ public class ClassTester extends Tester {
         super(outputPath);
     }
 
-
-    // write class path as String in test
-    public void writePath(String name, String path) {
-        writer.writeToFile("String " + pathV(name) + " = " + "\"" + path + "\" ;\n");
-    }
-
-    private String pathV(String name) { // use this method so the variable name is the same every time
-        return name + "Path";
-    }
 
     public void testIsAbstract(String name) {
         writer.writeToFile("public void testClassIsAbstract" + name + "() throws Exception{ testClassIsAbstract(Class.forName(" + pathV(name) + ")); }\n");
@@ -58,26 +52,83 @@ public class ClassTester extends Tester {
     /////////////////////
     public void testSetter(String className, String methodName, String varName, String varType, boolean writeVariable) {
 
-        String t = "int Integer String Arraylist  List  boolean  Boolean";
-        String type = (t.contains(varType) ? varType + ".Class" : pathV(varType));
+
+        String type = (isMyType(varType) ? varType + ".Class" : pathV(varType));
         writer.writeToFile("\tpublic void testSetterForInstanceVariable" + varName + "ExistsInClass" + className + "()throws Exception { \n" +
-                "\t\t testSetterMethodExistsInClass(Class.forName(" + pathV(className) + "), " + methodName + ", Class.forName(" + type + ")," + writeVariable + "); }\n");
+                "\t\t testSetterMethodExistsInClass(Class.forName(" + pathV(className) + "), " + "\"" + methodName +"\"" + ", Class.forName(" + type + ")," + writeVariable + "); }\n");
     }
 
     public void testGetter(String className, String methodName, String varName, String varType, boolean writeVariable) {
 
-        String t = "int Integer String Arraylist  List  boolean  Boolean";
-        String type = (t.contains(varType) ? varType + ".Class" : pathV(varType));
+        String type = (isMyType(varType) ? varType + ".Class" : pathV(varType));
         writer.writeToFile("\tpublic void testGetterForInstanceVariable" + varName + "ExistsInClass" + className + "()throws Exception { \n" +
-                "\t\t testGetterMethodExistsInClass(Class.forName(" + pathV(className) + "), " + methodName + ", Class.forName(" + type + ")," + writeVariable + "); }\n");
+                "\t\t testGetterMethodExistsInClass(Class.forName(" + pathV(className) + "), " +"\""+ methodName +"\""+ ", Class.forName(" + type + ")," + writeVariable + "); }\n");
+    }
+
+
+    private boolean isMyType(String type) {
+        String t = "int Integer String Arraylist  List  boolean  Boolean double Double";
+        return t.contains(type);
+    }
+
+
+    public void testConstructorInitialization(String className, ArrayList<String> varNames, ArrayList<String> varType, int n) {
+
+        String varInit = "";
+        ArrayList<String> valuesNames = new ArrayList<>();
+        for (int i = 0; i < varNames.size(); i++) {
+            varInit += varType.get(i) + " " + varNames.get(i) + i + " = " + giveMeRandom(varType.get(i)) + ";\n";
+            valuesNames.add(varNames.get(i) + i);
+        }
+
+        String names = "";
+        String values = "";
+        names += "\nString names = {" ;
+        values += "\nString values = {" ;
+        if (varNames.size() > 1) {
+            names += "\""+ varNames.get(0) + "\"" ;
+            values += valuesNames.get(0);
+            for (int i = 1; i < varNames.size(); i++) {
+                names += " , " + "\""+varNames.get(i) + "\"" ;
+                values += " , " + valuesNames.get(i);
+            }
+        }
+        names += " };\n";
+        values += " };\n";
+
+        writer.writeToFile("public void testConstructorInitialization" + n + className + "() throws Exception\n" +
+                "\t{\n" +
+                "Object " + className + n + " =  Class.forName(" + className + "Path).getConstructor().newInstance(); \n" +
+                varInit + names + values +
+                "testConstructorInitialization(" + className + n+", names, values);\n" +
+                "\t}");
     }
 
 
     ///////////////////////////////
 
 
-
-
+//    public void setterLogic(String className, String varName, String varType) {
+//
+//        String className2 = (isMyType(varType) ? varType + ".Class" : pathV(varType));//class of the variable
+//        writer.writeToFile("public void testSetterLogicForInstanceVariable" + varName  + "InClass" + className + "() throws Exception\n" +
+//                "\t{\n" +
+//                "Object " + className2 + " =  Class.forName(" + className2 + " Path).getConstructor().newInstance(); \n" +
+//                varType + varType.trim() + 01 + " = 01; \n" +
+//                "\t\ttestSetterLogic(" + className2 + "," + varName + " , varType, varType," + varType + ");\n" +
+//                "\t}");
+//    }
+//
+//    public void getterLogic(String className, String varName, String varType) {
+//
+//        String className2 = (isMyType(varType) ? varType + ".Class" : pathV(varType)); //class of the variable
+//        writer.writeToFile("public void testGetterLogicForInstanceVariable" + varName + "InClass" + className + "() throws Exception\n" +
+//                "\t{\n" +
+//                "Object " + className2 + " =  Class.forName(" + className2 + " Path).getConstructor().newInstance(); \n" +
+//                varType + varType.trim() + 01 + " = 01; \n" +
+//                "\t\ttestGetterLogic(" + className2 + "," + varName + " , varType);\n" +
+//                "\t}");
+//    }
 
 
     //////////////////////////////
@@ -89,6 +140,34 @@ public class ClassTester extends Tester {
             }
         }
         return inputs;
+    }
+
+
+    private String giveMeRandom(String type) {
+        Random random = new Random();
+
+        switch (type) {
+            case "boolean":
+                return "random.nextBoolean()";
+            case "byte":
+                return "randomByte()";
+            case "short":
+                return "(short) random.nextInt()";
+            case "int":
+                return "random.nextInt()";
+            case "long":
+                return "random.nextLong()";
+            case "float":
+                return "random.nextFloat()";
+            case "double":
+                return "random.nextDouble()";
+            case "char":
+                return "generateRandomChar()";
+            case "String":
+                return "generateRandomString()";
+            default:
+                return "Class.forName(" + type + ").getConstructor().newInstance();";
+        }
     }
 
 

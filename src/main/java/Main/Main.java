@@ -70,19 +70,16 @@ public class Main {
         File oldFileC = new File(fileT);
         oldFileC.delete();
 
+
         // start generate tests
         Tester tester = new Tester(fileT);
         tester.writeIntro();
         for (Javas j : myJavas) {
+//            if(j.getClass().getSimpleName().equals("Class"))
+//                tester.pool((Class)j);
             j.generateTest(fileT);
         }
         tester.writeOutro();
-
-        // start cheating output  file
-//        for (Javas j: myJavas) {
-//            j.detectCheat(fileC);
-//        }
-
 
     }
 

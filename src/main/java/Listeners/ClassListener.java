@@ -75,7 +75,7 @@ public class ClassListener extends Java8BaseListener {
     @Override
     public void exitFormalParameter(Java8Parser.FormalParameterContext ctx) {
         super.exitFormalParameter(ctx);
-        method.parameters.add(ctx.getText());
+        method.parameters.add(ctx.variableDeclaratorId().getText());
         String name = ctx.variableDeclaratorId().getText();
         String type = ctx.unannType().getText();
         method.variables.put(name, new Variable("private", type, name));

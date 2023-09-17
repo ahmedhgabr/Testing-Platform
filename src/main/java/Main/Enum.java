@@ -2,10 +2,10 @@ package Main;
 
 import ANTLR.Java8Lexer;
 import ANTLR.Java8Parser;
-import Listeners.ClassListener;
 import Listeners.EnumListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import testGenerate.EnumTester;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -51,4 +51,16 @@ public class Enum extends Javas {
         return res;
     }
 
+
+    @Override
+    void generateTest(String outputPath) {
+        super.generateTest(outputPath);
+        EnumTester tester = new EnumTester(outputPath);
+
+        tester.writePath(name, path);
+
+        tester.testIsEnum(name);
+        tester.testEnumValues(name, values);
+
+    }
 }
