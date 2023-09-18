@@ -61,7 +61,7 @@ public class Interface extends Javas{
 
         tester.writePath(name, path);
 
-        tester.testIsInstanceVariable(name);
+        tester.testIsInterface(name);
 
     }
 

@@ -62,7 +62,7 @@ public class Main {
         File oldFile = new File(fileP);
         oldFile.delete();
 
-        String fileT = "OutputTest.java";
+        String fileT = "PublicTest.java";
         File oldFileT = new File(fileT);
         oldFileT.delete();
 
@@ -73,6 +73,9 @@ public class Main {
 
         // start generate tests
         Tester tester = new Tester(fileT);
+        for ( Javas j: myJavas) {
+            tester.writeImport(j.path);
+        }
         tester.writeIntro();
         for (Javas j : myJavas) {
 //            if(j.getClass().getSimpleName().equals("Class"))
@@ -89,7 +92,7 @@ public class Main {
 //        Scanner sc= new Scanner(System.in);
 //        String p = sc.next();
 
-        String p = "C:/Users/Asus/Desktop/myProjects/Connect4/src";
+        String p = "C:/Users/Asus/Downloads/Cases/Cases/Cheating case 1/Team 73 - Sami El Sebaei/LastOfUs_Game/src";
         return p;
     }
 

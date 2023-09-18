@@ -16,7 +16,8 @@ public class Enum extends Javas {
 
     ArrayList<String> values ;
 
-    public Enum() {
+    public Enum(String name) {
+        this.name = name;
         this.values = new ArrayList<>();
     }
 
@@ -63,4 +64,5 @@ public class Enum extends Javas {
         tester.testEnumValues(name, values);
 
     }
+
 }

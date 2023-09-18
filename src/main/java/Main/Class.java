@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Class extends Javas {
 
@@ -104,6 +106,7 @@ public class Class extends Javas {
                 names.add(var.name);
                 types.add(var.type);
             }
+            tester.testConstructor(name , types , i++) ;
             tester.testConstructorInitialization(name,names,types,i++);
 
         }
@@ -116,21 +119,21 @@ public class Class extends Javas {
 
         // test will always have setter , getter tests
         for (Variable var : variables) {
-            String mName = "set" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
+            String sName = "set" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
             String gName = "get" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
             
-            if (methodsNames.contains(mName)) {
-                tester.testSetter(name, mName, var.name, var.type, true);
+            if (methodsNames.contains(sName)) {
+                tester.testSetter(name, sName, var.name, var.type, true);
 //                tester.setterLogic(name, var.name, var.type);
             } else {
-                tester.testSetter(name, mName, var.name, var.type, false);
+                tester.testSetter(name, sName, var.name, var.type, false);
             }
 
             if (methodsNames.contains(gName)) {
-                tester.testGetter(name, mName, var.name, var.type, true);
+                tester.testGetter(name, gName, var.name, var.type, true);
 //                tester.getterLogic(name, var.name, var.type);
             } else {
-                tester.testGetter(name, mName, var.name, var.type, false);
+                tester.testGetter(name, gName, var.name, var.type, false);
             }
 
 

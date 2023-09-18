@@ -15,6 +15,10 @@ public class Tester {
         writer.writeToFile(s);
     }
 
+
+    public void writeImport(String path) {
+        writer.writeToFile("import "+ getPath(path) + ";");
+    }
     public void writeIntro() {
         writer.writeToFile(intro);
     }
@@ -25,11 +29,21 @@ public class Tester {
 
     // write class path as String in test
     public void writePath(String name, String path) {
-        path = path.substring(path.indexOf("src/")+4 , path.indexOf(".java")).replace("/" , ".") ;
+        path = getPath(path) ;
+
         writer.writeToFile("String " + pathV(name) + " = " + "\"" + path + "\" ;\n");
     }
 
+    private String getPath(String path){
+        return path.substring(path.indexOf("src/")+4 , path.indexOf(".java")).replace("/" , ".") ;
+    }
+
     String pathV(String name) { // use this method so the variable name is the same every time
+        if(name.contains("[]")){
+            name.replace("[","");
+            name.replace("]","");
+        }
+
         return name + "Path";
     }
 
@@ -61,8 +75,10 @@ public class Tester {
             "import java.lang.reflect.Method;\n" +
             "import java.lang.reflect.Modifier;\n" +
             "import java.util.ArrayList;\n" +
+            "import java.util.Random;\n" +
             "\n" +
             "import org.junit.Test;\n" +
+            "import static org.mockito.Mockito.*;\n" +
             "\n" +
             "import java.io.File;\n" +
             "import java.io.IOException;\n" +
@@ -70,7 +86,7 @@ public class Tester {
             "import java.io.FileNotFoundException;\n" +
             "import java.lang.reflect.InvocationTargetException;\n" +
             "\n" +
-            "public class Test\n" +
+            "public class PublicTest\n" +
             "{";
     String outro = "\n// ############################################# Helper methods\n" +
             "private Object giveMeRandom(String type) {\n" +
@@ -197,7 +213,7 @@ public class Tester {
             "\tprivate void testInstanceVariableIsPrivate(Class aClass, String varName) throws NoSuchFieldException, SecurityException \n" +
             "\t{\n" +
             "\t\tField f = aClass.getDeclaredField(varName);\n" +
-            "\t\tassertEquals(\"The \\\"\"+ varName + \"\\\" instance variable in class \" + aClass.getSimpleName() + \" should not be accessed outside that class.\", 2, f.getModifiers());\n" +
+            "\t\tassertEquals(\"The \\\"\"+ varName + \"\\\" instance variable in class \" + aClass.getSimpleName() + \" should not be accessed outside that class.\", true, Modifier.isPrivate(f.getModifiers()) );\n" +
             "\t}\n" +
             "\t\n" +
             "\tprivate void testGetterMethodExistsInClass(Class aClass, String methodName, Class returnedType, boolean writeVariable)\n" +
@@ -216,7 +232,7 @@ public class Tester {
             "\t\t\tvarName = methodName.substring(2);\n" +
             "\t\telse\n" +
             "\t\t\tvarName = methodName.substring(3);\n" +
-            "\t\tvarName = Character.toLowerCase(varName.charAt(0))\n" +
+            "\t\tvarName = java.lang.Character.toLowerCase(varName.charAt(0))\n" +
             "\t\t\t\t+ varName.substring(1);\n" +
             "\t\tif (writeVariable)\n" +
             "\t\t{\n" +
@@ -234,7 +250,7 @@ public class Tester {
             "\t{\n" +
             "\t\tMethod[] methods = aClass.getDeclaredMethods();\n" +
             "\t\tString varName = methodName.substring(3);\n" +
-            "\t\tvarName = Character.toLowerCase(varName.charAt(0))\n" +
+            "\t\tvarName = java.lang.Character.toLowerCase(varName.charAt(0))\n" +
             "\t\t\t\t+ varName.substring(1);\n" +
             "\t\tif (writeVariable) \n" +
             "\t\t{\n" +
@@ -369,10 +385,10 @@ public class Tester {
             "\t\t}\n" +
             "\t\tf.setAccessible(true);\n" +
             "\t\tf.set(createdObject, value);\n" +
-            "\t\tCharacter c = name.charAt(0);\n" +
-            "\t\tString methodName = \"get\" + Character.toUpperCase(c) + name.substring(1, name.length());\n" +
+            "\t\tjava.lang.Character c = name.charAt(0);\n" +
+            "\t\tString methodName = \"get\" + java.lang.Character.toUpperCase(c) + name.substring(1, name.length());\n" +
             "\t\tif (value.getClass().equals(Boolean.class))\n" +
-            "\t\t\tmethodName = \"is\" + Character.toUpperCase(c) + name.substring(1, name.length());\n" +
+            "\t\t\tmethodName = \"is\" + java.lang.Character.toUpperCase(c) + name.substring(1, name.length());\n" +
             "\t\tMethod m = createdObject.getClass().getMethod(methodName);\n" +
             "\t\tassertEquals(\"The method \\\"\" + methodName + \"\\\" in class \" + createdObject.getClass().getSimpleName() + \" should return the correct value of variable \\\"\" + name + \"\\\".\", value, m.invoke(createdObject));\n" +
             "\t}\n" +
@@ -396,8 +412,8 @@ public class Tester {
             "\t\t\t}\n" +
             "\t\t}\n" +
             "\t\tf.setAccessible(true);\n" +
-            "\t\tCharacter c = name.charAt(0);\n" +
-            "\t\tString methodName = \"set\" + Character.toUpperCase(c) + name.substring(1, name.length());\n" +
+            "\t\tjava.lang.Character c = name.charAt(0);\n" +
+            "\t\tString methodName = \"set\" + java.lang.Character.toUpperCase(c) + name.substring(1, name.length());\n" +
             "\t\tMethod m = createdObject.getClass().getMethod(methodName, type);\n" +
             "\t\tm.invoke(createdObject, valueIn);\n" +
             "\t\tassertEquals(\"The method \\\"\" + methodName + \"\\\" in class \" + createdObject.getClass().getSimpleName() + \" should set the correct value of variable \\\"\" + name + \"\\\".\", valueOut, f.get(createdObject));\n" +
@@ -416,6 +432,7 @@ public class Tester {
             "\t}\n" +
             "\t\n" +
             "}\n";
+
 
 
 }

@@ -5,6 +5,7 @@ import ANTLR.Java8Parser;
 import Main.Interface;
 import Main.Javas;
 import Main.Class;
+import Main.Enum;
 
 
 import java.util.ArrayList;
@@ -29,6 +30,14 @@ public class MainListener extends Java8BaseListener {
         javas.add(new Interface(interfaceName));
 
     }
+
+    @Override
+    public void exitEnumDeclaration(Java8Parser.EnumDeclarationContext ctx) {
+        super.exitEnumDeclaration(ctx);
+        String enumName = ctx.Identifier().getText();
+        javas.add(new Enum(enumName));
+    }
+
 
     //TODO: enum , annotations
 }

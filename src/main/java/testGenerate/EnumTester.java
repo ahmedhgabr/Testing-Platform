@@ -10,7 +10,8 @@ public class EnumTester extends Tester {
     }
 
     public void testIsEnum(String className) {
-        writer.writeToFile("public void testClassIsEnum" + className + "() throws Exception\n" +
+        writer.writeToFile("@Test\n" +
+                "public void testClassIsEnum" + className + "() throws Exception\n" +
                 "\t{\n" +
                 "testIsEnum(Class.forName(" + className + "Path));\n" +
                 "\t}");
@@ -25,10 +26,10 @@ public class EnumTester extends Tester {
             }
 
         in += " };\n";
-        writer.writeToFile("public void testEnumValues" + className + "() throws Exception\n" +
+        writer.writeToFile("@Test\npublic void testEnumValues" + className + "() throws Exception\n" +
                 "\t{\n" +
-                "String [] inputs = {" + in + ")};\n" +
-                "testEnumValues(Class.forName(" + className +"Path));\n" +
+                "String [] inputs = {" + in + "\n" +
+                "testEnumValues(Class.forName(" + className +"Path),inputs);\n" +
                 "\t}");
     }
 
