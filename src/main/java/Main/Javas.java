@@ -2,7 +2,7 @@ package Main;
 
 import java.util.ArrayList;
 
-public class Javas {
+public abstract class Javas {
 
     String path;
 
@@ -25,17 +25,17 @@ public class Javas {
     String name;
     ArrayList<String> modifier;
     String signature;
+    String creationString;
 
     void analyze() {
 
     }
 
-    void generateTest(String outputPath) {
+    void generateTest(String outputPath ) {
 
     }
 
-    void detectCheat(String outputPath) {
 
-    }
+
 
 }

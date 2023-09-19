@@ -1,7 +1,6 @@
 package testGenerate;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 
 public class ClassTester extends Tester {
@@ -69,7 +68,6 @@ public class ClassTester extends Tester {
 
 
     private boolean isMyType(String type) {
-//        String t = "int Integer String boolean Boolean double Double List Arraylist Set HashSet HashMap [] Stack Queue LinkedList";
 
         switch (type) {
             case "boolean":
@@ -115,7 +113,7 @@ public class ClassTester extends Tester {
         String varInit = "Random random = new Random();\n";
         ArrayList<String> valuesNames = new ArrayList<>();
         for (int i = 0; i < varNames.size(); i++) {
-            varInit += varType.get(i) + " " + varNames.get(i) + i + " = " + giveMeRandom(varType.get(i)) + ";\n";
+            varInit += varType.get(i) + " " + varNames.get(i) + i + " = " + getRandom(varType.get(i)) + ";\n";
             valuesNames.add(varNames.get(i) + i);
         }
 
@@ -143,33 +141,6 @@ public class ClassTester extends Tester {
     }
 
 
-    ///////////////////////////////
-
-
-//    public void setterLogic(String className, String varName, String varType) {
-//
-//        String className2 = (isMyType(varType) ? varType + ".Class" : pathV(varType));//class of the variable
-//        writer.writeToFile("public void testSetterLogicForInstanceVariable" + varName  + "InClass" + className + "() throws Exception\n" +
-//                "\t{\n" +
-//                "Object " + className2 + " =  Class.forName(" + className2 + " Path).getConstructor().newInstance(); \n" +
-//                varType + varType.trim() + 01 + " = 01; \n" +
-//                "\t\ttestSetterLogic(" + className2 + "," + varName + " , varType, varType," + varType + ");\n" +
-//                "\t}");
-//    }
-//
-//    public void getterLogic(String className, String varName, String varType) {
-//
-//        String className2 = (isMyType(varType) ? varType + ".Class" : pathV(varType)); //class of the variable
-//        writer.writeToFile("public void testGetterLogicForInstanceVariable" + varName + "InClass" + className + "() throws Exception\n" +
-//                "\t{\n" +
-//                "Object " + className2 + " =  Class.forName(" + className2 + " Path).getConstructor().newInstance(); \n" +
-//                varType + varType.trim() + 01 + " = 01; \n" +
-//                "\t\ttestGetterLogic(" + className2 + "," + varName + " , varType);\n" +
-//                "\t}");
-//    }
-
-
-    //////////////////////////////
 
     private String inputsToString(ArrayList<String> inputs) {
         String res = "";
@@ -182,7 +153,7 @@ public class ClassTester extends Tester {
     }
 
 
-    private String giveMeRandom(String type) {
+    private String getRandom(String type) {
         Random random = new Random();
 
         switch (type) {
@@ -205,7 +176,7 @@ public class ClassTester extends Tester {
             case "String":
                 return "generateRandomString()";
             default:
-                return "Class.forName(" + pathV(type) + ").getConstructor().newInstance();";
+                return  creationString.get(type);
         }
     }
 

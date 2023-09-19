@@ -62,6 +62,8 @@ public class Class extends Javas {
         this.variables = listener.variables;
         this.methods = listener.methods;
         this.constructors = listener.constructors;
+
+//        this.creationString = "Object "+ name+ " = Class.forName("+name+"Path).getConstructor().newInstance();";
     }
 
     private String setSignature() {
@@ -73,6 +75,7 @@ public class Class extends Javas {
         res += this.name + " {";
         return res;
     }
+
 
 
     @Override
@@ -97,17 +100,17 @@ public class Class extends Javas {
 
 
         //constructors
-        int i =0 ;
-        for (Method constructor: constructors) {
+        int i = 0;
+        for (Method constructor : constructors) {
             ArrayList<String> names = new ArrayList<>();
             ArrayList<String> types = new ArrayList<>();
-            for (String varName : constructor.parameters ) {
+            for (String varName : constructor.parameters) {
                 Variable var = constructor.getVariable(varName);
                 names.add(var.name);
                 types.add(var.type);
             }
-            tester.testConstructor(name , types , i++) ;
-            tester.testConstructorInitialization(name,names,types,i++);
+            tester.testConstructor(name, types, i++);
+//            tester.testConstructorInitialization(name, names, types, i++);
 
         }
 
@@ -121,7 +124,7 @@ public class Class extends Javas {
         for (Variable var : variables) {
             String sName = "set" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
             String gName = "get" + Character.toUpperCase(var.name.charAt(0)) + var.name.substring(1);
-            
+
             if (methodsNames.contains(sName)) {
                 tester.testSetter(name, sName, var.name, var.type, true);
 //                tester.setterLogic(name, var.name, var.type);

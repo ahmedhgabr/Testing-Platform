@@ -2,10 +2,12 @@ package testGenerate;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Tester {
 
     TestWriter writer;
+    public HashMap<String, String> creationString = new HashMap<>();
 
     public Tester(String outputPath) {
         this.writer = new TestWriter(outputPath);
@@ -17,8 +19,9 @@ public class Tester {
 
 
     public void writeImport(String path) {
-        writer.writeToFile("import "+ getPath(path) + ";");
+        writer.writeToFile("import " + getPath(path) + ";");
     }
+
     public void writeIntro() {
         writer.writeToFile(intro);
     }
@@ -29,19 +32,19 @@ public class Tester {
 
     // write class path as String in test
     public void writePath(String name, String path) {
-        path = getPath(path) ;
+        path = getPath(path);
 
         writer.writeToFile("String " + pathV(name) + " = " + "\"" + path + "\" ;\n");
     }
 
-    private String getPath(String path){
-        return path.substring(path.indexOf("src/")+4 , path.indexOf(".java")).replace("/" , ".") ;
+    private String getPath(String path) {
+        return path.substring(path.indexOf("src/") + 4, path.indexOf(".java")).replace("/", ".");
     }
 
     String pathV(String name) { // use this method so the variable name is the same every time
-        if(name.contains("[]")){
-            name.replace("[","");
-            name.replace("]","");
+        if (name.contains("[]")) {
+            name.replace("[", "");
+            name.replace("]", "");
         }
 
         return name + "Path";
@@ -78,7 +81,6 @@ public class Tester {
             "import java.util.Random;\n" +
             "\n" +
             "import org.junit.Test;\n" +
-            "import static org.mockito.Mockito.*;\n" +
             "\n" +
             "import java.io.File;\n" +
             "import java.io.IOException;\n" +
@@ -89,63 +91,6 @@ public class Tester {
             "public class PublicTest\n" +
             "{";
     String outro = "\n// ############################################# Helper methods\n" +
-            "private Object giveMeRandom(String type) {\n" +
-            "        Random random = new Random();\n" +
-            "\n" +
-            "        switch (type) {\n" +
-            "            case \"boolean\":\n" +
-            "                return random.nextBoolean();\n" +
-            "            case \"byte\":\n" +
-            "                byte[] randomByte = new byte[1];\n" +
-            "                random.nextBytes(randomByte);\n" +
-            "                return randomByte;\n" +
-            "            case \"short\":\n" +
-            "                return (short) random.nextInt();\n" +
-            "            case \"int\":\n" +
-            "                return random.nextInt();\n" +
-            "            case \"long\":\n" +
-            "                return random.nextLong();\n" +
-            "            case \"float\":\n" +
-            "                return random.nextFloat();\n" +
-            "            case \"double\":\n" +
-            "                return random.nextDouble();\n" +
-            "            case \"char\":\n" +
-            "                return generateRandomChar();\n" +
-            "            case \"String\":\n" +
-            "                return generateRandomString();\n" +
-            "            default: mock();\n" +
-            "\n" +
-            "        }\n" +
-            "        return null;\n" +
-            "    }\n" +
-            "\n" +
-            "\n" +
-            "    private static char generateRandomChar() {\n" +
-            "        Random random = new Random();\n" +
-            "        return (char) (random.nextInt(26) + 'a');\n" +
-            "    }\n" +
-            "\n" +
-            "private Byte randomByte() {\n" +
-            "    Random random = new Random();\n" +
-            "        byte[] randomByte = new byte[1];\n" +
-            "        random.nextBytes(randomByte);\n" +
-            "        return randomByte[0];\n" +
-            "    }"+
-            "    private static String generateRandomString() {\n" +
-            "        int length = 10;\n" +
-            "        String characters = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\";\n" +
-            "        StringBuilder sb = new StringBuilder(length);\n" +
-            "        Random random = new Random();\n" +
-            "\n" +
-            "        for (int i = 0; i < length; i++) {\n" +
-            "            int index = random.nextInt(characters.length());\n" +
-            "            sb.append(characters.charAt(index));\n" +
-            "        }\n" +
-            "\n" +
-            "        return sb.toString();\n" +
-            "    }" +
-            "\n" +
-            "\n" +
             "\tprivate boolean testConstructorInitializationWithRandom(Object createdObject, String[] names, Object[] values) throws NoSuchMethodException, SecurityException, IllegalArgumentException, IllegalAccessException \n" +
             "\t{\n" +
             "\t\tboolean res = true;\n" +
@@ -432,7 +377,6 @@ public class Tester {
             "\t}\n" +
             "\t\n" +
             "}\n";
-
 
 
 }

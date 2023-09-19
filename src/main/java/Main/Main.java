@@ -75,12 +75,11 @@ public class Main {
         Tester tester = new Tester(fileT);
         for ( Javas j: myJavas) {
             tester.writeImport(j.path);
+            tester.creationString.put(j.name,j.creationString);
         }
         tester.writeIntro();
         for (Javas j : myJavas) {
-//            if(j.getClass().getSimpleName().equals("Class"))
-//                tester.pool((Class)j);
-            j.generateTest(fileT);
+            j.generateTest(fileT );
         }
         tester.writeOutro();
 
