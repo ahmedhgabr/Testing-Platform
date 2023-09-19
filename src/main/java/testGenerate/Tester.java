@@ -7,7 +7,6 @@ import java.util.HashMap;
 public class Tester {
 
     TestWriter writer;
-    public HashMap<String, String> creationString = new HashMap<>();
 
     public Tester(String outputPath) {
         this.writer = new TestWriter(outputPath);
@@ -22,26 +21,40 @@ public class Tester {
         writer.writeToFile("import " + getPath(path) + ";");
     }
 
+    /**
+     * write needed imports for test file
+     */
     public void writeIntro() {
         writer.writeToFile(intro);
     }
 
+    /**
+     * write needed helper methods
+     */
     public void writeOutro() {
         writer.writeToFile(outro);
     }
 
-    // write class path as String in test
+    /**
+     * write class path as String variable in the test file -> String classNamePath = "package.ClassName";
+     */
     public void writePath(String name, String path) {
         path = getPath(path);
 
         writer.writeToFile("String " + pathV(name) + " = " + "\"" + path + "\" ;\n");
     }
 
+    /**
+     * change the path format form  "folder/package/class.java" to "package.class"
+     */
     private String getPath(String path) {
         return path.substring(path.indexOf("src/") + 4, path.indexOf(".java")).replace("/", ".");
     }
 
-    String pathV(String name) { // use this method so the variable name is the same every time
+    /**
+     *   use this method so the path variable name is the same every time -> classNamePath
+     */
+    String pathV(String name) {
         if (name.contains("[]")) {
             name.replace("[", "");
             name.replace("]", "");
@@ -51,23 +64,8 @@ public class Tester {
     }
 
 
-//    static ArrayList<Object> myPoolValue = new ArrayList<>();
-//    static ArrayList<String> myPoolString = new ArrayList<>();
-//    public void pool(Main.Class myClass){
-//        try {
-//            String s = "Main.Class" ;
-////            String p = myClass.getPath().substring(0,myClass.getPath().indexOf("src")) + myClass.getPath().substring(myClass.getPath().indexOf("src") , myClass.getPath().indexOf(".java") ).replace("/",".");
-//
-//            Class<?> clazz = Class.forName(s);
-////            Constructor c = clazz.getConstructor();
-////            Object  o = c.newInstance();
-////            Class c = Class.forName(myClass.getName());
-//            System.out.println(clazz);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//    }
+
+
 
     String intro = "import static org.junit.Assert.assertEquals;\n" +
             "import static org.junit.Assert.assertFalse;\n" +

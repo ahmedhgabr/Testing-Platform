@@ -6,6 +6,3 @@ This is a platform for automated testing. It is designed to be used by teachers 
  - [x] Take project path from the user
  - [x] Parse the project using ANTLR 
  - [ ] Generate a Junit test file
-
-
-

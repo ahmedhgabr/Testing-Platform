@@ -55,47 +55,43 @@ public class Main {
         // here, we should have all data we need from our input
         // have all classes( names , variables , methods )
         // interfaces (methods)
-        //TODO: support enums , annotations
+        //TODO: support annotations
 
 
         // empty the output files (delete old output if found)
-        String fileP = "output.txt";
-        File oldFile = new File(fileP);
-        oldFile.delete();
-
         String fileT = "PublicTest.java";
         File oldFileT = new File(fileT);
         oldFileT.delete();
 
-        String fileC = "outputCheat.java";
-        File oldFileC = new File(fileT);
-        oldFileC.delete();
-
 
         // start generate tests
         Tester tester = new Tester(fileT);
-        for ( Javas j: myJavas) {
+        for (Javas j : myJavas) {
             tester.writeImport(j.path);
-            tester.creationString.put(j.name,j.creationString);
         }
         tester.writeIntro();
         for (Javas j : myJavas) {
-            j.generateTest(fileT );
+            j.generateTest(fileT);
         }
         tester.writeOutro();
 
     }
 
+
     private static String takeInput() {
 //        enter the path of the src
         System.out.println("Enter src path : ");
-        Scanner sc= new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String p = sc.next();
 
+        // input example. Watch Out for the format -> "ex/am/ple/src"
 //        String p = "C:/Users/Asus/Downloads/Cases/Cases/Cheating case 1/Team 73 - Sami El Sebaei/LastOfUs_Game/src";
         return p;
     }
 
+    /**
+     * recursive method will search all the folders/packages for files with .java extension
+     */
     private static void findFiles(String path) {
         File directory = new File(path);
         String contents[] = directory.list();
@@ -111,6 +107,10 @@ public class Main {
 
     }
 
+    /**
+     * Use MainListener to differentiate between classes , interfaces , enums
+     * add them to the MainListener.javas arraylist
+     */
     private static void isJavas(String file) {
         Path fileP = Paths.get(file);
         Java8Lexer lexer = null;

@@ -15,7 +15,6 @@ public class ClassTester extends Tester {
         writer.writeToFile("@Test\npublic void testClassIsAbstract" + name + "() throws Exception{ testClassIsAbstract(Class.forName(" + pathV(name) + ")); }\n");
     }
 
-
     public void testSuper(String name, String superName) {
         if (superName == null) return;
         writer.writeToFile("@Test\npublic void test" + superName + "IsSuperClassOf" + name + "() throws Exception\n" +
@@ -108,45 +107,44 @@ public class ClassTester extends Tester {
     }
 
 
-    public void testConstructorInitialization(String className, ArrayList<String> varNames, ArrayList<String> varType, int n) {
-
-        String varInit = "Random random = new Random();\n";
-        ArrayList<String> valuesNames = new ArrayList<>();
-        for (int i = 0; i < varNames.size(); i++) {
-            varInit += varType.get(i) + " " + varNames.get(i) + i + " = " + getRandom(varType.get(i)) + ";\n";
-            valuesNames.add(varNames.get(i) + i);
-        }
-
-        String names = "";
-        String values = "";
-        names += "\nString[] names = {";
-        values += "\nObject[] values = {";
-        if (varNames.size() > 1) {
-            names += "\"" + varNames.get(0) + "\"";
-            values += valuesNames.get(0);
-            for (int i = 1; i < varNames.size(); i++) {
-                names += " , " + "\"" + varNames.get(i) + "\"";
-                values += " , " + valuesNames.get(i);
-            }
-        }
-        names += " };\n";
-        values += " };\n";
-
-        writer.writeToFile("@Test\npublic void testConstructorInitialization" + n + className + "() throws Exception\n" +
-                "\t{\n" +
-                "Object " + className + n + " =  Class.forName(" + className + "Path).getConstructor().newInstance(); \n" +
-                varInit + names + values +
-                "testConstructorInitialization(" + className + n + ", names, values);\n" +
-                "\t}");
-    }
-
+//    public void testConstructorInitialization(String className, ArrayList<String> varNames, ArrayList<String> varType, int n) {
+//
+//        String varInit = "Random random = new Random();\n";
+//        ArrayList<String> valuesNames = new ArrayList<>();
+//        for (int i = 0; i < varNames.size(); i++) {
+//            varInit += varType.get(i) + " " + varNames.get(i) + i + " = " + getRandom(varType.get(i)) + ";\n";
+//            valuesNames.add(varNames.get(i) + i);
+//        }
+//
+//        String names = "";
+//        String values = "";
+//        names += "\nString[] names = {";
+//        values += "\nObject[] values = {";
+//        if (varNames.size() > 1) {
+//            names += "\"" + varNames.get(0) + "\"";
+//            values += valuesNames.get(0);
+//            for (int i = 1; i < varNames.size(); i++) {
+//                names += " , " + "\"" + varNames.get(i) + "\"";
+//                values += " , " + valuesNames.get(i);
+//            }
+//        }
+//        names += " };\n";
+//        values += " };\n";
+//
+//        writer.writeToFile("@Test\npublic void testConstructorInitialization" + n + className + "() throws Exception\n" +
+//                "\t{\n" +
+//                "Object " + className + n + " =  Class.forName(" + className + "Path).getConstructor().newInstance(); \n" +
+//                varInit + names + values +
+//                "testConstructorInitialization(" + className + n + ", names, values);\n" +
+//                "\t}");
+//    }
 
 
     private String inputsToString(ArrayList<String> inputs) {
         String res = "";
         for (int i = 0; i < inputs.size(); i++) {
-            res +=getTypeClass(inputs.get(i) ) +" ";
-            if(i != inputs.size()-1)
+            res += getTypeClass(inputs.get(i)) + " ";
+            if (i != inputs.size() - 1)
                 res += ",";
         }
         return res;
@@ -176,7 +174,8 @@ public class ClassTester extends Tester {
             case "String":
                 return "generateRandomString()";
             default:
-                return  creationString.get(type);
+                return ""; //TODO: make it work for classes of the input project
+            // you maybe can use Class.forName().getConstructor().newInstance();
         }
     }
 

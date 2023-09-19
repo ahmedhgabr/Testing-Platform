@@ -19,7 +19,7 @@ public class Class extends Javas {
     String superClass;
     ArrayList<String> interfaces;
 
-    //global variables
+    //instance variables
     ArrayList<Variable> variables;
     public ArrayList<Method> methods;
     public ArrayList<Method> constructors;
@@ -35,9 +35,6 @@ public class Class extends Javas {
         this.constructors = new ArrayList<>();
     }
 
-    private boolean isAbstract() {
-        return this.signature.contains("abstract");
-    }
 
     @Override
     void analyze() {
@@ -66,6 +63,10 @@ public class Class extends Javas {
 //        this.creationString = "Object "+ name+ " = Class.forName("+name+"Path).getConstructor().newInstance();";
     }
 
+    private boolean isAbstract() {
+        return this.signature.contains("abstract");
+    }
+
     private String setSignature() {
         String res = "";
         for (String m : this.modifier) {
@@ -75,7 +76,6 @@ public class Class extends Javas {
         res += this.name + " {";
         return res;
     }
-
 
 
     @Override
@@ -114,7 +114,6 @@ public class Class extends Javas {
 
         }
 
-
         ArrayList<String> methodsNames = new ArrayList<>();
         for (Method m : methods) {
             methodsNames.add(m.name);
@@ -138,12 +137,11 @@ public class Class extends Javas {
             } else {
                 tester.testGetter(name, gName, var.name, var.type, false);
             }
-
-
         }
 
-
     }
+
+
 
 
 }
