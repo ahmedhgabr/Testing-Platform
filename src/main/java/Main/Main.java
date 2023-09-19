@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import ANTLR.Java8Lexer;
 import ANTLR.Java8Parser;
@@ -87,11 +88,11 @@ public class Main {
 
     private static String takeInput() {
 //        enter the path of the src
-//        System.out.println("Enter src path : ");
-//        Scanner sc= new Scanner(System.in);
-//        String p = sc.next();
+        System.out.println("Enter src path : ");
+        Scanner sc= new Scanner(System.in);
+        String p = sc.next();
 
-        String p = "C:/Users/Asus/Downloads/Cases/Cases/Cheating case 1/Team 73 - Sami El Sebaei/LastOfUs_Game/src";
+//        String p = "C:/Users/Asus/Downloads/Cases/Cases/Cheating case 1/Team 73 - Sami El Sebaei/LastOfUs_Game/src";
         return p;
     }
 
