@@ -1,5 +1,30 @@
 # How It Works
 
+
+## Proccess
+ - [x] Take project path from the user
+    - [x] Find all java files in the project
+    - [x] Store all java files in a list
+ - [x] Parse the project using ANTLR 
+    - [x] Differentiate between classes, interfaces, and enums
+    - [x] `ClassListener` for classes
+    - [x] `InterfaceListener` for interfaces
+    - [x] `EnumListener` for enums
+    - [ ] `AnnotationListener` for annotations
+ - [ ] Generate a Junit test file
+    - [x] Class : test class is abstract
+    - [x] Class : test super class
+    - [x] Class : test interfaces
+    - [x] Class : test fields
+    - [x] Class : test constructors
+    - [ ] Class : test constructors logic
+    - [ ] Class : test methods logic
+    - [x] Interface : test is interface
+    - [ ] Interface : test methods
+    - [x] Enum : test is enum
+    - [x] Enum : test enum values
+
+
 ## Main
 the 'Main' class is the entry point of the program.
 - `takeInput()` : takes the path of the project from the user and find all java files in it and store them in `filesPath` list.
