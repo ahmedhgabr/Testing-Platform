@@ -55,7 +55,7 @@ if you are not using maven then download the jar file from [here](https://mvnrep
 
 ### Add new listener
 create a new class that extends `Java8BaseListener` and override the methods that you want to use.
-for more about listeners, check _antlr definitive guide_ book, chapter 4 and 7.
+for more about listeners, check __antlr definitive guide__ book, chapter 4 and 7.
 
 ### Edit listener
 To know the name of the method that you want to override, you can test grammer rules. Simply, open the grammar file (Java8.g4) and search for the rule that you want to test. Right Click on the rule and select "Test Rule ...". Then, write your code in ANTLR perview and check parse tree. The result will be shown in as parse tree. <br>Tip : you can always test `compilationUnit` rule to see the whole parse tree,and find the rule that you want to use.
